@@ -26,3 +26,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+// TODO: Make a page to display result and information about the crop.
+// TODO: Make the ImageWidget tapable and open a image viewer on tapped.
+// TODO: **Not so imp** Try to implement gallery as a tab in homepage.
