@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dynamic_theme/dynamic_theme.dart';
 
 import '../widgets/scaffold_body_potrait.dart';
 import '../widgets/scaffold_body_landscape.dart';
@@ -7,7 +8,12 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final orientation = MediaQuery.of(context).orientation;
-
+    void changeBrightness() {
+      DynamicTheme.of(context).setBrightness(
+          Theme.of(context).brightness == Brightness.dark
+              ? Brightness.light
+              : Brightness.dark);
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -25,7 +31,11 @@ class MyHomePage extends StatelessWidget {
               )
             ],
             icon: const Icon(Icons.more_vert),
-            onSelected: (selectedValue) {},
+            onSelected: (selectedValue) {
+              if (selectedValue == 'theme') {
+                changeBrightness();
+              }
+            },
           ),
         ],
       ),

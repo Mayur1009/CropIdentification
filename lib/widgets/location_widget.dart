@@ -14,7 +14,7 @@ class LocationWidget extends StatelessWidget {
         right: 10,
         left: 10,
       ),
-      color: Colors.blue,
+      color: Colors.indigo,
       shape: RoundedRectangleBorder(
         borderRadius: orientation == Orientation.portrait
             ? BorderRadius.only(
