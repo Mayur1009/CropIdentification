@@ -27,6 +27,8 @@ dependencies:
   location: ^2.5.4
   provider:
   geocoder:
+  dynamic_theme: ^1.0.1
+
 
 dev_dependencies:
   flutter_test:
