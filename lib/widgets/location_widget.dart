@@ -7,7 +7,6 @@ class LocationWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final imageObject = Provider.of<ImageObject>(context);
     final Orientation orientation = MediaQuery.of(context).orientation;
-    final Size deviceSize = MediaQuery.of(context).size;
 
     return Card(
       margin: EdgeInsets.only(

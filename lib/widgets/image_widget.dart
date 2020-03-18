@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:geocoder/geocoder.dart';
 
-import '../widgets/location_widget.dart';
 import '../providers/image_object.dart';
 
 class ImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final imageObject = Provider.of<ImageObject>(context);
-    final Size deviceSize = MediaQuery.of(context).size;
     final Orientation orientation = MediaQuery.of(context).orientation;
 
     return Card(
@@ -32,8 +29,8 @@ class ImageWidget extends StatelessWidget {
               ),
       ),
       child: imageObject.image == null
-          ? GestureDetector(
-              onTap: () {
+          ? ImageGesture(
+              () {
                 Scaffold.of(context).showSnackBar(
                   SnackBar(
                     content: Text('Please Select an Image.'),
@@ -46,47 +43,51 @@ class ImageWidget extends StatelessWidget {
                   ),
                 );
               },
-              child: Container(
-                height: orientation == Orientation.portrait
-                    ? (deviceSize.height * 0.65)
-                    : (deviceSize.height - 65),
-                width: orientation == Orientation.portrait
-                    ? (deviceSize.width)
-                    : (deviceSize.width * 0.55),
-                child: Center(
-                  child: Text('No image selected'),
-                ),
-              ),
+              Center(child: Text('No image selected')),
             )
-          : Column(
-              children: <Widget>[
-                GestureDetector(
-                  onLongPress: () {},
-                  child: ClipRRect(
-                    borderRadius: orientation == Orientation.portrait
-                        ? BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15),
-                    )
-                        : BorderRadius.all(
-                      Radius.circular(15),
-                    ),
-                    child: Container(
-                      height: orientation == Orientation.portrait
-                          ? (deviceSize.height * 0.65)
-                          : (deviceSize.height - 65),
-                      width: orientation == Orientation.portrait
-                          ? (deviceSize.width)
-                          : (deviceSize.width * 0.55),
-                      child: Image.file(
-                        imageObject.image,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+          : ImageGesture(
+              () {},
+              Image.file(
+                imageObject.image,
+                fit: BoxFit.cover,
+              ),
             ),
+    );
+  }
+}
+
+class ImageGesture extends StatelessWidget {
+  final Function _onTap;
+  final Widget _child;
+
+  ImageGesture(this._onTap, this._child);
+
+  @override
+  Widget build(BuildContext context) {
+    final Orientation orientation = MediaQuery.of(context).orientation;
+    final Size deviceSize = MediaQuery.of(context).size;
+
+    return GestureDetector(
+      onTap: _onTap,
+      child: ClipRRect(
+        borderRadius: orientation == Orientation.portrait
+            ? BorderRadius.only(
+                topLeft: Radius.circular(15),
+                topRight: Radius.circular(15),
+              )
+            : BorderRadius.all(
+                Radius.circular(15),
+              ),
+        child: Container(
+          height: orientation == Orientation.portrait
+              ? (deviceSize.height * 0.65)
+              : (deviceSize.height - 65),
+          width: orientation == Orientation.portrait
+              ? (deviceSize.width)
+              : (deviceSize.width * 0.55),
+          child: _child,
+        ),
+      ),
     );
   }
 }

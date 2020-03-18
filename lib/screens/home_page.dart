@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../providers/image_object.dart';
 import '../widgets/scaffold_body_potrait.dart';
 import '../widgets/scaffold_body_landscape.dart';
 
@@ -9,7 +7,6 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final orientation = MediaQuery.of(context).orientation;
-    final imageObject = Provider.of<ImageObject>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(
@@ -33,7 +30,7 @@ class MyHomePage extends StatelessWidget {
         ],
       ),
       body: orientation == Orientation.portrait
-          ? SingleChildScrollView(child : PotraitBody())
+          ? SingleChildScrollView(child: PotraitBody())
           : LandscapeBody(),
     );
   }
