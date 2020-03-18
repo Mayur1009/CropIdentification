@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:geocoder/geocoder.dart';
+import 'package:location/location.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ImageObject with ChangeNotifier {
   File _image;
@@ -20,16 +22,48 @@ class ImageObject with ChangeNotifier {
   double get longitude {
     return _longitude != null ? _longitude : null;
   }
+
   String get address {
     return _address != null ? _address : null;
   }
 
+  Future<void> setLocation() async {
+    Location location = new Location();
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
 
-  void setObject(File image, double lat, double long, String add) {
-    _image = image;
-    _latitude = lat;
-    _longitude = long;
-    _address = add;
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.DENIED) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.GRANTED) {
+        return;
+      }
+    }
+    LocationData _locationData = await location.getLocation();
+    final coord =
+        new Coordinates(_locationData.latitude, _locationData.longitude);
+    final address = await Geocoder.local.findAddressesFromCoordinates(coord);
+    var _first = address.first;
+
+    _latitude = _locationData.latitude;
+    _longitude = _locationData.longitude;
+    _address = _first.addressLine;
+    notifyListeners();
+  }
+
+  Future<void> setImage(String src) async {
+    final _imageFile = await ImagePicker.pickImage(
+      source: src == 'camera' ? ImageSource.camera : ImageSource.gallery,
+      imageQuality: 50,
+    );
+    _image = _imageFile;
     _timeStamp = DateTime.now();
     notifyListeners();
   }
