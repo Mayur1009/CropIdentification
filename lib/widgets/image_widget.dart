@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:photo_view/photo_view.dart';
 
 import '../providers/image_object.dart';
 
@@ -46,7 +48,17 @@ class ImageWidget extends StatelessWidget {
               Center(child: Text('No image selected')),
             )
           : ImageGesture(
-              () {},
+              () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (ctx) => ImageView(
+                      FileImage(
+                        imageObject.image,
+                      ),
+                    ),
+                  ),
+                );
+              },
               Image.file(
                 imageObject.image,
                 fit: BoxFit.cover,
@@ -89,5 +101,19 @@ class ImageGesture extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class ImageView extends StatelessWidget {
+  final ImageProvider image;
+
+  ImageView(this.image);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        child: PhotoView(
+      imageProvider: image,
+    ));
   }
 }
