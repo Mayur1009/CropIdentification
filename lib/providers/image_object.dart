@@ -1,8 +1,11 @@
 import 'dart:io';
+
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:location/location.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tflite/tflite.dart';
 
 class ImageObject with ChangeNotifier {
   File _image;
@@ -10,6 +13,7 @@ class ImageObject with ChangeNotifier {
   double _longitude;
   DateTime _timeStamp;
   String _address;
+  List _recognitions;
 
   File get image {
     return _image != null ? _image : null;
@@ -25,6 +29,10 @@ class ImageObject with ChangeNotifier {
 
   String get address {
     return _address != null ? _address : null;
+  }
+
+  List get recognitions {
+    return _recognitions != null ? _recognitions : null;
   }
 
   Future<void> setLocation() async {
@@ -59,11 +67,20 @@ class ImageObject with ChangeNotifier {
   }
 
   Future<void> setImage(String src) async {
-    final _imageFile = await ImagePicker.pickImage(
+    final imageFile = await ImagePicker.pickImage(
       source: src == 'camera' ? ImageSource.camera : ImageSource.gallery,
       imageQuality: 50,
     );
-    _image = _imageFile;
+    _image = imageFile;
+    notifyListeners();
+    if (_image == null) return;
+    var recognitions = await Tflite.runModelOnImage(
+      path: _image.path,
+      threshold: 0.5,
+    );
+    print(recognitions);
+    _recognitions = recognitions;
+    _image = imageFile;
     _timeStamp = DateTime.now();
     notifyListeners();
   }

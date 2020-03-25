@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:photo_view/photo_view.dart';
@@ -10,6 +9,7 @@ class ImageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final imageObject = Provider.of<ImageObject>(context);
     final Orientation orientation = MediaQuery.of(context).orientation;
+    final Size deviceSize = MediaQuery.of(context).size;
 
     return Card(
       margin: orientation == Orientation.portrait
@@ -47,22 +47,80 @@ class ImageWidget extends StatelessWidget {
               },
               Center(child: Text('No image selected')),
             )
-          : ImageGesture(
-              () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (ctx) => ImageView(
-                      FileImage(
-                        imageObject.image,
+          : Stack(
+              alignment: Alignment.bottomCenter,
+              children: <Widget>[
+                ImageGesture(
+                  () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (ctx) => ImageView(
+                          FileImage(
+                            imageObject.image,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  Image.file(
+                    imageObject.image,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                if (imageObject.recognitions != null &&
+                    orientation == Orientation.portrait)
+                  Container(
+                    width: deviceSize.width,
+                    color: Colors.black87,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 5,
+                    ),
+                    child: Column(
+                      children: imageObject.recognitions.map((res) {
+                        return Text(
+                          "${res["index"]} - ${res["label"]}: ${res["confidence"]}",
+                          style: TextStyle(
+                            fontSize: 26,
+                            color: Colors.white,
+                          ),
+                          softWrap: true,
+                          overflow: TextOverflow.fade,
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                if (imageObject.recognitions != null &&
+                    orientation == Orientation.landscape)
+                  ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(15),
+                      bottomRight: Radius.circular(15),
+                    ),
+                    child: Container(
+                      width: (deviceSize.width * 0.55),
+                      height: (deviceSize.height - 65) * 0.11,
+                      color: Colors.black87,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 5,
+                      ),
+                      child: Column(
+                        children: imageObject.recognitions.map((res) {
+                          return Text(
+                            "${res["index"]} - ${res["label"]}: ${res["confidence"]}",
+                            style: TextStyle(
+                              fontSize: 26,
+                              color: Colors.white,
+                            ),
+                            softWrap: true,
+                            overflow: TextOverflow.fade,
+                          );
+                        }).toList(),
                       ),
                     ),
                   ),
-                );
-              },
-              Image.file(
-                imageObject.image,
-                fit: BoxFit.cover,
-              ),
+              ],
             ),
     );
   }
@@ -79,7 +137,7 @@ class ImageGesture extends StatelessWidget {
     final Orientation orientation = MediaQuery.of(context).orientation;
     final Size deviceSize = MediaQuery.of(context).size;
 
-    return GestureDetector(
+    return InkWell(
       onTap: _onTap,
       child: ClipRRect(
         borderRadius: orientation == Orientation.portrait
@@ -92,7 +150,7 @@ class ImageGesture extends StatelessWidget {
               ),
         child: Container(
           height: orientation == Orientation.portrait
-              ? (deviceSize.height * 0.65)
+              ? (deviceSize.height * 0.62)
               : (deviceSize.height - 65),
           width: orientation == Orientation.portrait
               ? (deviceSize.width)
@@ -112,8 +170,9 @@ class ImageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: PhotoView(
-      imageProvider: image,
-    ));
+      child: PhotoView(
+        imageProvider: image,
+      ),
+    );
   }
 }

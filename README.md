@@ -1,6 +1,6 @@
-# crop_app
+# crop_app2
 
-Crop Identification App
+A new Flutter project.
 
 ## Getting Started
 

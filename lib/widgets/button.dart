@@ -8,7 +8,11 @@ class Button extends StatelessWidget {
   final IconData icon;
   final String imgSrc;
 
-  Button({this.label, this.icon, this.imgSrc,});
+  Button({
+    this.label,
+    this.icon,
+    this.imgSrc,
+  });
 
   @override
   Widget build(BuildContext context) {
