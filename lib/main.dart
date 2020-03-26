@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
           return ChangeNotifierProvider(
             create: (ctx) => ImageObject(),
             child: new MaterialApp(
-              title: 'Flutter Demo',
+              title: 'Crop Identification',
               theme: theme,
               home: new MyHomePage(),
             ),
