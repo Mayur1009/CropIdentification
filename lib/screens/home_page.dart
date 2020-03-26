@@ -1,14 +1,14 @@
-import 'package:flutter/material.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:tflite/tflite.dart';
 
-import '../widgets/scaffold_body_potrait.dart';
 import '../widgets/scaffold_body_landscape.dart';
-
+import '../widgets/scaffold_body_potrait.dart';
+import '../providers/image_object.dart';
 
 class MyHomePage extends StatefulWidget {
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -35,7 +35,8 @@ class _MyHomePageState extends State<MyHomePage> {
       String res;
       res = await Tflite.loadModel(
         model: "assets/tflite/converted_model.tflite",
-        labels: "assets/tflite/labels_ben.txt",);
+        labels: "assets/tflite/labels_ben.txt",
+      );
       print(res);
     } on PlatformException {
       print('Failed to load moedel.');
@@ -44,17 +45,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final orientation = MediaQuery
-        .of(context)
-        .orientation;
+    final imageObject = Provider.of<ImageObject>(context, listen: false);
+    final orientation = MediaQuery.of(context).orientation;
     void changeBrightness() {
       DynamicTheme.of(context).setBrightness(
-          Theme
-              .of(context)
-              .brightness == Brightness.dark
+          Theme.of(context).brightness == Brightness.dark
               ? Brightness.light
               : Brightness.dark);
     }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -65,17 +64,24 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         actions: <Widget>[
           PopupMenuButton(
-            itemBuilder: (_) =>
-            [
+            itemBuilder: (_) => [
               PopupMenuItem(
                 child: const Text('Change theme'),
                 value: 'theme',
-              )
+              ),
+              PopupMenuItem(
+                child: const Text('Clear'),
+                value: 'clear',
+              ),
             ],
             icon: const Icon(Icons.more_vert),
             onSelected: (selectedValue) {
               if (selectedValue == 'theme') {
                 changeBrightness();
+              }
+
+              if (selectedValue == 'clear') {
+                imageObject.clear();
               }
             },
           ),

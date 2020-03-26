@@ -23,9 +23,6 @@ class Button extends StatelessWidget {
       ),
       elevation: 10,
       onPressed: () {
-        if (imageObject.latitude == null || imageObject.longitude == null) {
-          imageObject.setLocation();
-        }
         imageObject.setImage(imgSrc);
       },
       icon: Icon(icon),
@@ -33,4 +30,3 @@ class Button extends StatelessWidget {
     );
   }
 }
-

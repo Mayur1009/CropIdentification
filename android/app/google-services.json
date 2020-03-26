@@ -1,0 +1,119 @@
+{
+  "project_info": {
+    "project_number": "591880830028",
+    "firebase_url": "https://crop-identification-744f2.firebaseio.com",
+    "project_id": "crop-identification-744f2",
+    "storage_bucket": "crop-identification-744f2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:591880830028:android:fb801d524d5b121824c8e9",
+        "android_client_info": {
+          "package_name": "com.example.classifier"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "591880830028-slois3cl6clehv6i6bj1mskpfhu5iu8d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZms9c99vDyHy8Fcpr2F5kv1Lbhiald0U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "591880830028-slois3cl6clehv6i6bj1mskpfhu5iu8d.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "591880830028-j6g31slgvgnssirt1bb4ovoj2dmd6d2p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.cropApp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:591880830028:android:f269f2e636f164e224c8e9",
+        "android_client_info": {
+          "package_name": "com.example.crop_app2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "591880830028-slois3cl6clehv6i6bj1mskpfhu5iu8d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZms9c99vDyHy8Fcpr2F5kv1Lbhiald0U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "591880830028-slois3cl6clehv6i6bj1mskpfhu5iu8d.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "591880830028-j6g31slgvgnssirt1bb4ovoj2dmd6d2p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.cropApp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:591880830028:android:5cbbcc76552a5fc624c8e9",
+        "android_client_info": {
+          "package_name": "com.google.automlkit.automl_mlkit_example"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "591880830028-slois3cl6clehv6i6bj1mskpfhu5iu8d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZms9c99vDyHy8Fcpr2F5kv1Lbhiald0U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "591880830028-slois3cl6clehv6i6bj1mskpfhu5iu8d.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "591880830028-j6g31slgvgnssirt1bb4ovoj2dmd6d2p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.cropApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
