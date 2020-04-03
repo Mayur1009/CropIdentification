@@ -55,16 +55,19 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/tflite/dict.txt
-    - assets/tflite/manifest.json
-    - assets/tflite/model.tflite
-    - assets/tflite/labels_ben.txt
-    - assets/tflite/converted_model.tflite
-    - assets/tflite/mobilenet_v1_1.0_224.tflite
-    - assets/tflite/mobilenet_v1_1.0_224.txt
-    - assets/tflite/classes.txt
-    - assets/tflite/converted_model2.tflite
-    - assets/tflite/tf_model.tflite
+#    - assets/tflite/dict.txt
+#    - assets/tflite/manifest.json
+#    - assets/tflite/model.tflite
+#    - assets/tflite/labels_ben.txt
+#    - assets/tflite/converted_model.tflite
+#    - assets/tflite/mobilenet_v1_1.0_224.tflite
+#    - assets/tflite/mobilenet_v1_1.0_224.txt
+#    - assets/tflite/converted_model2.tflite
+#    - assets/tflite/tf_model.tflite
+#     - assets/tflite/tf_model2.tflite
+     - assets/tflite/classes.txt
+     - assets/tflite/tf_modelQQ.tflite
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

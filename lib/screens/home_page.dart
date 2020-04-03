@@ -34,7 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
     try {
       String res;
       res = await Tflite.loadModel(
-        model: "assets/tflite/tf_model.tflite",
+        model: "assets/tflite/tf_modelQQ.tflite",
         labels: "assets/tflite/classes.txt",
       );
       print(res);
