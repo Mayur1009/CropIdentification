@@ -61,9 +61,9 @@ class ImageObject with ChangeNotifier {
       }
     }
     _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.DENIED) {
+    if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.GRANTED) {
+      if (_permissionGranted != PermissionStatus.granted) {
         return;
       }
     }
@@ -79,7 +79,7 @@ class ImageObject with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> setImage(String src) async {
+  Future<void> setImage(String src, BuildContext context) async {
     clear();
     setLocation();
     final imageFile = await ImagePicker.pickImage(
@@ -97,20 +97,30 @@ class ImageObject with ChangeNotifier {
     if (_image == null) return;
     var recognitions = await Tflite.runModelOnImage(
       path: _image.path,
-      threshold: 0.5,
+      threshold: 0.1,
     );
     print(recognitions);
     _recognitions = recognitions;
-    uploadImage(_image);
+    uploadImage(_image, context);
     notifyListeners();
   }
 
-  Future uploadImage(File image) async {
+  Future uploadImage(File image, BuildContext context) async {
     StorageReference storageReference = FirebaseStorage.instance
         .ref()
         .child('Test/${path.basename(_image.path)}');
     StorageUploadTask uploadTask = storageReference.putFile(_image);
     await uploadTask.onComplete;
     print('File Uploaded');
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Image Uploaded.'),
+        duration: Duration(seconds: 3),
+        action: SnackBarAction(
+          label: 'Okay',
+          onPressed: () => Scaffold.of(context).hideCurrentSnackBar(),
+        ),
+      ),
+    );
   }
 }

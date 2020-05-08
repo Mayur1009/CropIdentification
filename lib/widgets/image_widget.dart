@@ -79,7 +79,9 @@ class ImageWidget extends StatelessWidget {
                     child: Column(
                       children: imageObject.recognitions.map((res) {
                         return Text(
-                          "${res["index"]} - ${res["label"]}: ${res["confidence"]}",
+//                          "${res["index"]} - ${res["label"]}: ${res["confidence"]}",
+                          "${res["label"]}",
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 26,
                             color: Colors.white,

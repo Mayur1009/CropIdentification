@@ -23,7 +23,17 @@ class Button extends StatelessWidget {
       ),
       elevation: 10,
       onPressed: () {
-        imageObject.setImage(imgSrc);
+        imageObject.setImage(imgSrc, context);
+//        Scaffold.of(context).showSnackBar(
+//          SnackBar(
+//            content: Text('Image Uploaded.'),
+//            duration: Duration(seconds: 3),
+//            action: SnackBarAction(
+//              label: 'Okay',
+//              onPressed: () => Scaffold.of(context).hideCurrentSnackBar(),
+//            ),
+//          ),
+//        );
       },
       icon: Icon(icon),
       label: Text(label),
