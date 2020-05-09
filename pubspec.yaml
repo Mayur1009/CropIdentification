@@ -32,6 +32,7 @@ dependencies:
   tflite: ^1.0.5
   firebase_storage: ^3.1.5
   path_provider: ^1.6.7
+  cloud_firestore:
 
 
 

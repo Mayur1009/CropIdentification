@@ -8,6 +8,7 @@ import 'package:location/location.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tflite/tflite.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ImageObject with ChangeNotifier {
   File _image;
@@ -89,7 +90,8 @@ class ImageObject with ChangeNotifier {
     _timeStamp = DateTime.now();
     final Directory appDir = await getApplicationDocumentsDirectory();
     print(appDir.path);
-    final newimage = imageFile.copySync('${appDir.path}/${_timeStamp.toIso8601String()}.jpeg');
+    final newimage = imageFile
+        .copySync('${appDir.path}/${_timeStamp.toIso8601String()}.jpeg');
     _image = newimage;
     print(_image.path);
 
@@ -110,7 +112,15 @@ class ImageObject with ChangeNotifier {
         .ref()
         .child('Test/${path.basename(_image.path)}');
     StorageUploadTask uploadTask = storageReference.putFile(_image);
-    await uploadTask.onComplete;
+    var dow = await (await uploadTask.onComplete).ref.getDownloadURL();
+    Firestore.instance.collection('root').add(
+      {
+        'url': dow,
+        'latitude': _latitude,
+        'longitude': _longitude,
+        'timestamp': _timeStamp,
+      },
+    );
     print('File Uploaded');
     Scaffold.of(context).showSnackBar(
       SnackBar(
