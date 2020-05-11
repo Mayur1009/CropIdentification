@@ -102,8 +102,8 @@ class ImageObject with ChangeNotifier {
       threshold: 0.1,
     );
     double tempconf = -1;
-    for(var m in recognitions) {
-      if(m['confidence'] > tempconf) {
+    for (var m in recognitions) {
+      if (m['confidence'] > tempconf) {
         tempconf = m['confidence'];
         _label = m['label'];
       }
@@ -128,11 +128,18 @@ class ImageObject with ChangeNotifier {
         'timestamp': _timeStamp,
       },
     );
-    print('File Uploaded');
+    print('Image Uploaded');
+    Firestore.instance.collection('${_label.toLowerCase()}').add(
+      {
+        'latitude': _latitude,
+        'longitude': _longitude,
+      },
+    );
+    print('Location Uploaded');
     Scaffold.of(context).showSnackBar(
       SnackBar(
         content: Text('Image Uploaded.'),
-        duration: Duration(seconds: 3),
+        duration: Duration(seconds: 2),
         action: SnackBarAction(
           label: 'Okay',
           onPressed: () => Scaffold.of(context).hideCurrentSnackBar(),

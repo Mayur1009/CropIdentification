@@ -7,6 +7,7 @@ import 'package:tflite/tflite.dart';
 import '../widgets/scaffold_body_landscape.dart';
 import '../widgets/scaffold_body_potrait.dart';
 import '../providers/image_object.dart';
+import '../widgets/maptab.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -54,42 +55,64 @@ class _MyHomePageState extends State<MyHomePage> {
               : Brightness.dark);
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Crop Identification App',
-          style: TextStyle(
-            fontSize: 25,
-          ),
-        ),
-        actions: <Widget>[
-          PopupMenuButton(
-            itemBuilder: (_) => [
-              PopupMenuItem(
-                child: const Text('Change theme'),
-                value: 'theme',
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          bottom: TabBar(
+            tabs: <Widget>[
+              Tab(
+                icon: Icon(Icons.art_track),
               ),
-              PopupMenuItem(
-                child: const Text('Clear'),
-                value: 'clear',
+              Tab(
+                icon: Icon(Icons.map),
               ),
             ],
-            icon: const Icon(Icons.more_vert),
-            onSelected: (selectedValue) {
-              if (selectedValue == 'theme') {
-                changeBrightness();
-              }
-
-              if (selectedValue == 'clear') {
-                imageObject.clear();
-              }
-            },
           ),
-        ],
+          title: Text(
+            'Crop Identification App',
+            style: TextStyle(
+              fontSize: 25,
+            ),
+          ),
+          actions: <Widget>[
+            PopupMenuButton(
+              itemBuilder: (_) => [
+                PopupMenuItem(
+                  child: const Text('Change theme'),
+                  value: 'theme',
+                ),
+                PopupMenuItem(
+                  child: const Text('Clear'),
+                  value: 'clear',
+                ),
+              ],
+              icon: const Icon(Icons.more_vert),
+              onSelected: (selectedValue) {
+                if (selectedValue == 'theme') {
+                  changeBrightness();
+                }
+
+                if (selectedValue == 'clear') {
+                  imageObject.clear();
+                }
+              },
+            ),
+          ],
+        ),
+        body: TabBarView(
+          physics: NeverScrollableScrollPhysics(),
+          children: <Widget>[
+            orientation == Orientation.portrait
+                ? SingleChildScrollView(child: PotraitBody())
+                : LandscapeBody(),
+            Maptab(),
+          ],
+        ),
+//        orientation == Orientation.portrait
+//            ? SingleChildScrollView(child: PotraitBody())
+//            : LandscapeBody(),
       ),
-      body: orientation == Orientation.portrait
-          ? SingleChildScrollView(child: PotraitBody())
-          : LandscapeBody(),
     );
   }
 }
