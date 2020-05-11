@@ -67,32 +67,27 @@ class ImageWidget extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
-                if (imageObject.recognitions != null &&
+                if (imageObject.label != null &&
                     orientation == Orientation.portrait)
                   Container(
-                    width: deviceSize.width,
-                    color: Colors.black87,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 5,
-                    ),
-                    child: Column(
-                      children: imageObject.recognitions.map((res) {
-                        return Text(
-//                          "${res["index"]} - ${res["label"]}: ${res["confidence"]}",
-                          "${res["label"]}",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 26,
-                            color: Colors.white,
-                          ),
-                          softWrap: true,
-                          overflow: TextOverflow.fade,
-                        );
-                      }).toList(),
-                    ),
+                      width: deviceSize.width,
+                      color: Colors.black87,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 5,
+                      ),
+                      child: Text(
+                        "${imageObject.label}",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 26,
+                          color: Colors.white,
+                        ),
+                        softWrap: true,
+                        overflow: TextOverflow.fade,
+                      ),
                   ),
-                if (imageObject.recognitions != null &&
+                if (imageObject.label != null &&
                     orientation == Orientation.landscape)
                   ClipRRect(
                     borderRadius: BorderRadius.only(
@@ -107,18 +102,15 @@ class ImageWidget extends StatelessWidget {
                         horizontal: 20,
                         vertical: 5,
                       ),
-                      child: Column(
-                        children: imageObject.recognitions.map((res) {
-                          return Text(
-                            "${res["index"]} - ${res["label"]}: ${res["confidence"]}",
-                            style: TextStyle(
-                              fontSize: 26,
-                              color: Colors.white,
-                            ),
-                            softWrap: true,
-                            overflow: TextOverflow.fade,
-                          );
-                        }).toList(),
+                      child: Text(
+                        "${imageObject.label}",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 26,
+                          color: Colors.white,
+                        ),
+                        softWrap: true,
+                        overflow: TextOverflow.fade,
                       ),
                     ),
                   ),

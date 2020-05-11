@@ -16,7 +16,7 @@ class ImageObject with ChangeNotifier {
   double _longitude;
   DateTime _timeStamp;
   String _address;
-  List _recognitions;
+  String _label;
 
   File get image {
     return _image != null ? _image : null;
@@ -34,8 +34,8 @@ class ImageObject with ChangeNotifier {
     return _address != null ? _address : null;
   }
 
-  List get recognitions {
-    return _recognitions != null ? _recognitions : null;
+  String get label {
+    return _label != null ? _label : null;
   }
 
   void clear() {
@@ -44,7 +44,7 @@ class ImageObject with ChangeNotifier {
     _longitude = null;
     _timeStamp = null;
     _address = null;
-    _recognitions = null;
+    _label = null;
     print('\n\tData Cleared\n');
     notifyListeners();
   }
@@ -101,8 +101,14 @@ class ImageObject with ChangeNotifier {
       path: _image.path,
       threshold: 0.1,
     );
-    print(recognitions);
-    _recognitions = recognitions;
+    double tempconf = -1;
+    for(var m in recognitions) {
+      if(m['confidence'] > tempconf) {
+        tempconf = m['confidence'];
+        _label = m['label'];
+      }
+    }
+    print("$_label : $tempconf");
     uploadImage(_image, context);
     notifyListeners();
   }
@@ -110,12 +116,13 @@ class ImageObject with ChangeNotifier {
   Future uploadImage(File image, BuildContext context) async {
     StorageReference storageReference = FirebaseStorage.instance
         .ref()
-        .child('Test/${path.basename(_image.path)}');
+        .child('$_label/${path.basename(_image.path)}');
     StorageUploadTask uploadTask = storageReference.putFile(_image);
     var dow = await (await uploadTask.onComplete).ref.getDownloadURL();
     Firestore.instance.collection('root').add(
       {
         'url': dow,
+        'label': _label,
         'latitude': _latitude,
         'longitude': _longitude,
         'timestamp': _timeStamp,
