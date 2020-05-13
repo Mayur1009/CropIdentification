@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:latlong/latlong.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:geocoder/geocoder.dart';
@@ -17,6 +18,9 @@ class ImageObject with ChangeNotifier {
   DateTime _timeStamp;
   String _address;
   String _label;
+  List<dynamic> jute, cotton, wheat, maize, rice = List<LatLng>();
+  List<Map<String, dynamic>> allData = List();
+
 
   File get image {
     return _image != null ? _image : null;
@@ -36,6 +40,10 @@ class ImageObject with ChangeNotifier {
 
   String get label {
     return _label != null ? _label : null;
+  }
+
+  List<Map<String, dynamic>> get all {
+    return allData != null? allData: null;
   }
 
   void clear() {
@@ -129,12 +137,19 @@ class ImageObject with ChangeNotifier {
       },
     );
     print('Image Uploaded');
-    Firestore.instance.collection('${_label.toLowerCase()}').add(
-      {
-        'latitude': _latitude,
-        'longitude': _longitude,
-      },
-    );
+//    Firestore.instance.collection('markers/${_label.toLowerCase()}/loc').add(
+//      {
+//        'latitude': _latitude,
+//        'longitude': _longitude,
+//      },
+//    );
+//    Firestore.instance.collection('Mark').add(
+//      {
+//        'label': _label,
+//        'latitude': _latitude,
+//        'longitude': _longitude,
+//      },
+//    );
     print('Location Uploaded');
     Scaffold.of(context).showSnackBar(
       SnackBar(
@@ -146,5 +161,17 @@ class ImageObject with ChangeNotifier {
         ),
       ),
     );
+  }
+
+  void getcoords() async{
+    var docref = Firestore.instance.collection('root');
+    await docref.getDocuments().then((s) {
+        s.documents.forEach((d) {
+          allData.add(d.data);
+        });
+      }
+    );
+    print('IN COORDS:\n\n');
+    print(allData);
   }
 }
